@@ -22,7 +22,9 @@ import java.util.concurrent.CountDownLatch
  */
 @RunWith(androidx.test.ext.junit.runners.AndroidJUnit4::class)
 class CalculationTests: TestApplicationListener  {
-
+    private val SERIAL = 1;
+    private val JAVATHREADS = 2;
+    private val COROUTINES = 3;
 
     @Test
     fun useAppContext() {
@@ -31,9 +33,9 @@ class CalculationTests: TestApplicationListener  {
         assertEquals("paralland.paralleluniverse", appContext.packageName)
     }
     @Test
-    fun testCalculation(){
+    fun testCalculationSerial(){
      val cm:CaculationManager= CaculationManager();
-       assertEquals(3.1415926535, cm.caculatePiD(100000000),0.0000000001)
+       assertEquals(Math.PI, cm.caculatePiD(100000000),0.0000000001)
 
     }
 
@@ -48,7 +50,7 @@ class CalculationTests: TestApplicationListener  {
         val testActivity:TestActivity = testActivityRule.activity
         testActivity.setListener(this)
 
-        val jwrap: JavaWrapper = JavaWrapper(testActivity, 100000000);
+        val jwrap: JavaWrapper = JavaWrapper(testActivity, 100000000,JAVATHREADS);
         var d: Double = 0.0
 
                 jwrap.doExcecute(100000000)
@@ -58,7 +60,7 @@ class CalculationTests: TestApplicationListener  {
         d= testActivity.getResult()
         assertEquals(
             serialresult,d
-            , 0.0000000001
+            , 0.000000000001
         )
 
     }
@@ -76,7 +78,7 @@ class CalculationTests: TestApplicationListener  {
         }
         assertEquals(
             serialresult,d
-            , 0.0000000001
+            , 0.000000000001
         )
 
     }

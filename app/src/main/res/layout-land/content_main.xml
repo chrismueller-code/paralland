@@ -16,82 +16,82 @@
 
 
         <TextView
-            android:id="@+id/showText1"
+            android:id="@+id/showTextSerial"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/result_1"
+            android:text="@string/result_Serial"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/run1" />
+            app:layout_constraintTop_toBottomOf="@+id/runSerial" />
 
         <TextView
-            android:id="@+id/showText2"
+            android:id="@+id/showTextJavath"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/result_2"
+            android:text="@string/result_Javath"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/showText3"
+            app:layout_constraintEnd_toStartOf="@+id/showTextCorout"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/showText1"
-            app:layout_constraintTop_toBottomOf="@+id/run2" />
+            app:layout_constraintStart_toEndOf="@+id/showTextSerial"
+            app:layout_constraintTop_toBottomOf="@+id/runJavath" />
 
         <TextView
-            android:id="@+id/showText3"
+            android:id="@+id/showTextCorout"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/result_3"
+            android:text="@string/result_Corout"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/run3" />
+            app:layout_constraintTop_toBottomOf="@+id/runCorout" />
 
         <ProgressBar
-            android:id="@+id/progressBar1"
+            android:id="@+id/progressBarSerial"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/showText1"
-            app:layout_constraintStart_toEndOf="@+id/run1"
-            app:layout_constraintTop_toTopOf="@+id/run1" />
+            app:layout_constraintBottom_toTopOf="@+id/showTextSerial"
+            app:layout_constraintStart_toEndOf="@+id/runSerial"
+            app:layout_constraintTop_toTopOf="@+id/runSerial" />
 
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/progressBarJavaTh"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/run2"
-            app:layout_constraintStart_toEndOf="@+id/run2"
-            app:layout_constraintTop_toTopOf="@+id/run2" />
+            app:layout_constraintBottom_toBottomOf="@+id/runJavath"
+            app:layout_constraintStart_toEndOf="@+id/runJavath"
+            app:layout_constraintTop_toTopOf="@+id/runJavath" />
 
         <ProgressBar
-            android:id="@+id/progressBar3"
+            android:id="@+id/progressBarCorout"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/showText2"
+            app:layout_constraintBottom_toTopOf="@+id/showTextJavath"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/run2" />
+            app:layout_constraintTop_toTopOf="@+id/runJavath" />
 
         <ImageView
-            android:id="@+id/run1"
+            android:id="@+id/runSerial"
             android:layout_width="104dp"
             android:layout_height="78dp"
 
             android:layout_marginStart="36dp"
-            app:layout_constraintBottom_toBottomOf="@+id/run2"
+            app:layout_constraintBottom_toBottomOf="@+id/runJavath"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/run2"
+            app:layout_constraintTop_toTopOf="@+id/runJavath"
             app:srcCompat="@drawable/ic_play_circle_outline_24px" />
 
         <ImageView
-            android:id="@+id/run2"
+            android:id="@+id/runJavath"
             android:layout_width="104dp"
             android:layout_height="78dp"
             android:layout_marginTop="16dp"
@@ -103,11 +103,11 @@
             app:srcCompat="@drawable/ic_play_circle_outline_24px" />
 
         <ImageView
-            android:id="@+id/run3"
+            android:id="@+id/runCorout"
             android:layout_width="104dp"
             android:layout_height="78dp"
-            app:layout_constraintEnd_toStartOf="@+id/progressBar3"
-            app:layout_constraintTop_toTopOf="@+id/run2"
+            app:layout_constraintEnd_toStartOf="@+id/progressBarCorout"
+            app:layout_constraintTop_toTopOf="@+id/runJavath"
             app:srcCompat="@drawable/ic_play_circle_outline_24px" />
 
         <ImageView
@@ -117,7 +117,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/showText3"
+            app:layout_constraintTop_toBottomOf="@+id/showTextCorout"
             app:srcCompat="@drawable/ic_undo_24px" />
 
 

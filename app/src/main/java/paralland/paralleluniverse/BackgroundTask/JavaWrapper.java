@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 public class JavaWrapper {
-    JavaPi javaPi;
+    private JavaPi javaPi;
 
 
-    public JavaWrapper(Activity a, long numSteps) {
-        this.javaPi = new JavaPi(a,numSteps);
+    public JavaWrapper(Activity a, long numSteps, int id) {
+        this.javaPi = new JavaPi(a,numSteps, id);
 
     }
     public void doExcecute(long numsteps){
-        //we divide numSteps in four parts we want to caclulate in four threads
+        //we divide numSteps in numThreads parts we want to calculate in numThread threads
         long partSize = numsteps/4;
         long[] startend1 = new long[]{0,partSize};
         long[] startend2 = new long[]{partSize,(2*partSize)};

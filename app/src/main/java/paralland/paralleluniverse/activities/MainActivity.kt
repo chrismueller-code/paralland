@@ -18,164 +18,164 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
  class MainActivity : AppCompatActivity(), CalculationListener {
-    var calcresult:Double =0.0
-    var executionTime:Long = 0
-    var numSteps:Long = 100000000
-    var  start2:Long =0
-    var  start1:Long =0
-    var  start3:Long =0
-
-
-
-    var cm : CaculationManager = CaculationManager()
+    private var calcresult:Double =0.0
+    private var executionTime:Long = 0
+    private var numSteps:Long = 100000000
+    private var numThreads:Long = 4
+    private val NUMSTEPS = "Number of steps";
+    private val NUMTHREADS = "Number of threads";
+    private val PREF_FILE = "paralland_preferences";
+    private val SERIAL = 1;
+    private val JAVATHREADS = 2;
+    private val COROUTINES = 3;
+    private var  startJvThreads:Long =0
+    private var  startSerial:Long =0
+    private var  startCorout:Long =0
+    private var cm : CaculationManager = CaculationManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        numSteps = getSharedPreferences(PREF_FILE, 0).getLong(NUMSTEPS,100000000)
+        numThreads = getSharedPreferences(PREF_FILE, 0).getLong(NUMTHREADS,4)
 
-        run1.setOnClickListener { view ->
+        runSerial.setOnClickListener { view ->
 
-            if (start1.toInt() == 0) {
-                Snackbar.make(view, R.string.calcSerial, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-                start1 = System.currentTimeMillis()
-                caclulate1()
+            if (startSerial.toInt() == 0) {
+                Snackbar.make(view, R.string.calcSerial,
+                    Snackbar.LENGTH_LONG).show()
+
+                startSerial = System.currentTimeMillis()
+                calculateSerial()
             }else{
                 Snackbar.make(view, R.string.sorry, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
             }
 
         }
-        run2.setOnClickListener { view ->
-            if (start2.toInt() == 0) {
-                Snackbar.make(view, R.string.calcParallelThreads, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-                start2 = System.currentTimeMillis()
-                caclulate2()
+        runJavath.setOnClickListener { view ->
+            if (startJvThreads.toInt() == 0) {
+                Snackbar.make(view, R.string.calcParallelThreads,
+                    Snackbar.LENGTH_LONG)
+                startJvThreads = System.currentTimeMillis()
+                calculateJvThreads()
             }else{
                 Snackbar.make(view, R.string.sorry, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+
             }
         }
-        run3.setOnClickListener { view ->
-            if (start3.toInt() == 0) {
-                Snackbar.make(view, R.string.calcParallelCoroutines, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-                start3 = System.currentTimeMillis()
-                caclulate3()
+        runCorout.setOnClickListener { view ->
+            if (startCorout.toInt() == 0) {
+                Snackbar.make(view, R.string.calcParallelCoroutines,
+                    Snackbar.LENGTH_LONG)
+
+                startCorout = System.currentTimeMillis()
+                calculateCoroutines()
             }else{
                 Snackbar.make(view, R.string.sorry, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }
         }
         clear.setOnClickListener { view ->
-            showText1.text =getString(R.string.result_1)
-            showText2.text =getString(R.string.result_2)
-            showText3.text =getString(R.string.result_3)
+            showTextSerial.text =getString(R.string.result_Serial)
+            showTextJavath.text =getString(R.string.result_Javath)
+            showTextCorout.text =getString(R.string.result_Corout)
         }
 
-        progressBar1.visibility = View.INVISIBLE
-        progressBar2.visibility = View.INVISIBLE
-        progressBar3.visibility = View.INVISIBLE
+        progressBarSerial.visibility = View.INVISIBLE
+        progressBarJavaTh.visibility = View.INVISIBLE
+        progressBarCorout.visibility = View.INVISIBLE
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+     fun calculateSerial(){
+         progressBarSerial.visibility = View.VISIBLE
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-     fun caclulate3(){
-         progressBar3.visibility = View.VISIBLE
-         //progressBar3.visibility = View.VISIBLE
-         var coroutinePi: CoroutinesPi= CoroutinesPi()
-         coroutinePi.runCoroutine(this,numSteps)
+         var calculation = Runnable { calcresult = cm.caculatePiD(numSteps)
+         }
+         doinBackground(calculation, SERIAL)
 
-    }
-    fun caclulate2(){
+     }
+     fun calculateJvThreads(){
+         progressBarJavaTh.visibility = View.VISIBLE
 
-        progressBar2.visibility = View.VISIBLE
+         var javaWrap = JavaWrapper(this, numSteps, JAVATHREADS)
+         javaWrap.doExcecute(numSteps)
 
-            var javaWrap: JavaWrapper = JavaWrapper(this, numSteps)
-        javaWrap.doExcecute(numSteps)
+     }
+     fun calculateCoroutines(){
+         progressBarCorout.visibility = View.VISIBLE
 
-    }
+         var coroutinePi = CoroutinesPi()
+         coroutinePi.runCoroutine(this,numSteps, COROUTINES)
 
-    fun caclulate1(){
-        progressBar1.visibility = View.VISIBLE
-
-            var calculation: Runnable = Runnable { calcresult = cm.caculatePiD(numSteps)
-            var serialList = cm.serialDevided(numSteps)
-            }
-            doinBackground(calculation)
+     }
 
 
-    }
-    private fun doinBackground(backgroundtask: Runnable) {
 
-            var hand: Handler  = Handler()
-            val tthread = Thread(Runnable {
-                try {
+    private fun doinBackground(backgroundtask: Runnable, id:Int) {
+
+        var hand = Handler()
+        val tthread = Thread(Runnable {
+             try {
                     hand.post(Runnable {
 
                     })
                    backgroundtask.run()
                     hand.post(Runnable {
 
-                        onCalculationFinished(calcresult,1)
+                        onCalculationFinished(calcresult,id)
                     })
                 } catch (e: Exception) { // TODO Auto-generated catch block
                     e.printStackTrace()
                 }
             })
-            tthread.start()
+        tthread.start()
 
     }
-    @VisibleForTesting
     override fun onCalculationFinished(result: Double, which:Int) {
 
-        if (which == 1) {
-            executionTime =System.currentTimeMillis() - start1
-            showText1.text = (getString(R.string.done) + " "+getString(R.string.inSerial)
-                    + " "+getString(R.string.result)+ " "+
-                    getString(R.string.time)).format(numSteps,
-                cm.roundtotwelvedez(result),executionTime)
+        when (which) {
+            SERIAL -> {
+                executionTime = System.currentTimeMillis() - startSerial
+                showTextSerial.text = (getString(R.string.done) + " " + getString(R.string.inSerial)
+                        + " " + getString(R.string.result) + " " +
+                        getString(R.string.time)).format(
+                    numSteps,
+                    cm.roundtotwelvedez(result), executionTime
+                )
 
-            progressBar1.visibility = View.INVISIBLE
-            start1 = 0;
-        }else if (which == 2) {
-            executionTime =System.currentTimeMillis() - start2
+                progressBarSerial.visibility = View.INVISIBLE
+                startSerial = 0;
+            }
+            JAVATHREADS -> {
+                executionTime = System.currentTimeMillis() - startJvThreads
 
-            showText2.text =(getString(R.string.done) + " "+getString(R.string.withJavaThreads)
-                    + " "+getString(R.string.result)+ " "+
-                    getString(R.string.time)).format(numSteps,
-                cm.roundtotwelvedez(result),executionTime)
+                showTextJavath.text =
+                    (getString(R.string.done) + " " + getString(R.string.withJavaThreads)
+                            + " " + getString(R.string.result) + " " +
+                            getString(R.string.time)).format(
+                        numSteps,
+                        cm.roundtotwelvedez(result), executionTime
+                    )
 
+                progressBarJavaTh.visibility = View.INVISIBLE
+                startJvThreads = 0;
+            }
+            COROUTINES -> {
+                executionTime = System.currentTimeMillis() - startCorout
 
-            progressBar2.visibility = View.INVISIBLE
-            start2 = 0;
-        }else{
-            executionTime =System.currentTimeMillis() - start3
+                showTextCorout.text =
+                    (getString(R.string.done) + " " + getString(R.string.withCoroutines)
+                            + " " + getString(R.string.result) + " " +
+                            getString(R.string.time)).format(
+                        numSteps,
+                        cm.roundtotwelvedez(result), executionTime
+                    )
 
-            showText3.text =(getString(R.string.done) + " "+getString(R.string.withCoroutines)
-                    + " "+getString(R.string.result)+ " "+
-                    getString(R.string.time)).format(numSteps,
-                cm.roundtotwelvedez(result),executionTime)
-
-            progressBar3.visibility = View.INVISIBLE
-            start3 = 0;
+                progressBarCorout.visibility = View.INVISIBLE
+                startCorout = 0;
+            }
         }
     }
-
-}
+ }

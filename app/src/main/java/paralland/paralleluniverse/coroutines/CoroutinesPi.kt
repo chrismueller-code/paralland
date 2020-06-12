@@ -17,7 +17,7 @@ class CoroutinesPi {
     lateinit var startend4 :LongRange
     var pi:Double = 0.0
 
-     fun runCoroutine(activity: Activity, numberOfsteps:Long){
+     fun runCoroutine(activity: Activity, numberOfsteps:Long, id:Int){
         a= activity
         listener = activity as CalculationListener
 
@@ -26,7 +26,7 @@ class CoroutinesPi {
              calcPi(numberOfsteps)
              //this is on UiThread so withContext is needed
              withContext(Dispatchers.Main) {
-                 listener.onCalculationFinished(pi, 3)
+                 listener.onCalculationFinished(pi, id)
              }
         }
 
@@ -35,16 +35,14 @@ class CoroutinesPi {
     suspend fun calcPi(numberOfsteps: Long):Double {
         partSize=numberOfsteps / 4
         step =1.0 / numberOfsteps;
-        //we divide numSteps in four parts we want to caclulate in four threads
+        //we divide numSteps in four parts we want to calculate in four threads
         startend1 =0..partSize
-        startend2 = partSize + 1..(2 * partSize)
-        startend3 = ((2 * partSize) + 1)..(3 * partSize)
-        startend4 = ((3 * partSize) + 1)..(4 * partSize-1)
+        startend2 = (partSize + 1)until(2 * partSize)
+        startend3 = ((2 * partSize) + 1)until(3 * partSize)
+        startend4 = ((3 * partSize) + 1)until(4 * partSize-1)
 
         var partRes = calculateinParallel()
-        /* Now we have four results, we add up, which is critical, should be done here.
 
-           */
         for (partpi in partRes) {
             pi += partpi
         }

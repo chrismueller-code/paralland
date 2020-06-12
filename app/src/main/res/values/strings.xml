@@ -1,22 +1,20 @@
 <resources>
     <string name="app_name">Parallel Universe</string>
     <string name="action_settings">Settings</string>
-
-    <string name="calculate2">Calculate_2</string>
-    <string name="calculate1">Calculate_1</string>
-    <string name="calculate3">Calculate_3</string>
     <string name="done">I calculated Pi in %s steps </string>
     <string name="result">Pi = %s.</string>
     <string name="time">It took %s milliseconds</string>
     <string name="calcSerial">Start calculating Pi good old serial way</string>
-    <string name="calcParallelThreads">Start caclulating Pi with Java Threads and Thread Pool Executer</string>
+    <string name="calcParallelThreads">Start calculating Pi with Java Threads and Thread Pool Executer</string>
     <string name="calcParallelCoroutines">Start calculating Pi with Kotlin Coroutines</string>
     <string name="inSerial"> in serial</string>
     <string name="withJavaThreads">with Java Threads</string>
     <string name="withCoroutines">with Kotlin Coroutines</string>
     <string name="clear">clear</string>
-    <string name="result_1">Here the result of serial calculation will be shown</string>
-    <string name="result_2">Here the result of calculation with Java Threads will be shown</string>
-    <string name="result_3">Here the result of calculation with Kotlin Coroutines will be shown</string>
+    <string name="result_Serial">Here the result of serial calculation will be shown</string>
+    <string name="result_Javath">Here the result of calculation with Java Threads will be shown</string>
+    <string name="result_Corout">Here the result of calculation with Kotlin Coroutines will be shown</string>
     <string name="sorry">Sorry, still calculating...</string>
+    <string name="determineNumThreads">Determine number of threads</string>
+    <string name="determineNumSteps">Determine number of steps for calculating Pi</string>
 </resources>
